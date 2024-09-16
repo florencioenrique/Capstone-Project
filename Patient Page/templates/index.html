@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Disease Predictor</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+		}
+
+		h1 {
+			text-align: center;
+			color: #333;
+			padding: 20px;
+			background-color: #007bff;
+			color: white;
+		}
+
+		form {
+			max-width: 600px;
+			margin: 20px auto;
+			padding: 20px;
+			background-color: #fff;
+			border-radius: 8px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			position: relative;
+		}
+
+		label {
+			font-size: 16px;
+			margin-bottom: 10px;
+			display: block;
+		}
+
+		.input-container {
+			display: flex;
+			align-items: center;
+			position: relative;
+		}
+
+		input[type="text"] {
+			flex: 1;
+			padding: 10px;
+			font-size: 16px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			margin-right: 10px;
+		}
+
+		input[type="submit"] {
+			background-color: #007bff;
+			color: white;
+			border: none;
+			padding: 10px 20px;
+			font-size: 16px;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+
+		input[type="submit"]:hover {
+			background-color: #0056b3;
+		}
+
+		#result {
+			margin-top: 20px;
+			font-size: 18px;
+			font-weight: bold;
+		}
+
+		.autocomplete-suggestions {
+			position: absolute;
+			border: 1px solid #ccc;
+			background-color: #fff;
+			max-height: 100px; /* Limit height */
+			overflow-y: auto;  /* Make it scrollable */
+			z-index: 1000;
+			width: calc(100% - 22px); /* Adjust width to match input width */
+			border-radius: 4px;
+			top: 100%; /* Position below input */
+			left: 0;
+			display: none; /* Hide by default */
+		}
+
+		.autocomplete-suggestion {
+			padding: 10px;
+			cursor: pointer;
+		}
+
+		.autocomplete-suggestion:hover {
+			background-color: #f0f0f0;
+		}
+
+		.highlight {
+			background-color: #ffdddd;
+		}
+
+		.autocomplete-suggestion.invalid {
+			color: #ff0000;
+		}
+
+		/* Sidebar styles */
+		#sidebar {
+			min-width: 250px;
+			height: 100vh;
+			background: #343a40;
+			color: white;
+			position: fixed;
+			top: 0;
+			left: 0;
+			transition: all 0.3s;
+			z-index: 9999;
+		}
+
+		#sidebar.active {
+			left: -250px;
+		}
+
+		.sidebar-header {
+			padding: 20px;
+			background: #007bff;
+			color: white;
+		}
+
+		.nav-item a {
+			padding: 15px;
+			color: white;
+			display: block;
+			text-decoration: none;
+		}
+
+		.nav-item a:hover {
+			background-color: #495057;
+		}
+
+		.content {
+			margin-left: 250px;
+			padding: 20px;
+			transition: all 0.3s;
+		}
+
+		.content.active {
+			margin-left: 0;
+		}
+
+		/* Mobile adjustments */
+		@media (max-width: 767.98px) {
+			#sidebar {
+				left: -250px;
+			}
+
+			#sidebar.active {
+				left: 0;
+			}
+
+			.content {
+				margin-left: 0;
+			}
+
+		}
+
+		.navbar-dark {
+			background-color: #343a40;
+		}
+		#sidebarClose {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	border: none;
+	background: transparent;
+	font-size: 24px;
+	color: #fff;
+	cursor: pointer;
+	z-index: 1001; /* Ensure it sits on top of the sidebar content */
+}
+
+#sidebarClose:hover {
+	color: #f0f0f0;
+}
+
+		
+	</style>
+</head>
+<body>
+
+	<!-- Mobile Navbar Toggle -->
+	<nav class="navbar navbar-dark bg-dark d-md-none">
+		<button class="navbar-toggler" id="sidebarToggle" type="button">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+	</nav>
+
+	<!-- Sidebar -->
+	<div id="sidebar">
+		<button id="sidebarClose" class="btn btn-light btn-sm" style="position: absolute; top: 10px; right: 10px;" >&times;</button>
+		<div class="sidebar-header">
+			<h4>Menu</h4>
+		</div>
+		<ul class="nav flex-column">
+			<li class="nav-item">
+				<a href="#" class="nav-link">Home</a>
+			</li>
+			<li class="nav-item">
+				<a href="#" class="nav-link">Messages</a>
+			</li>
+			<li class="nav-item">
+				<a href="#" class="nav-link">About</a>
+			</li>
+			<li class="nav-item">
+				<a href="#" class="nav-link">Services</a>
+			</li>
+			<li class="nav-item">
+				<a href="#" class="nav-link">Contact</a>
+			</li>
+		</ul>
+	</div>
+
+	<!-- Content -->
+	<div class="content">
+		<h1>Disease Predictor</h1>
+		<form id="disease-form">
+			<label for="symptoms">Enter Symptoms (comma-separated):</label>
+			<div class="input-container">
+				<input type="text" id="symptoms" name="symptoms" autocomplete="off" placeholder="Type symptoms here...">
+				<input type="submit" value="Get Diseases">
+			</div>
+			<div id="suggestions" class="autocomplete-suggestions"></div>
+		</form>
+		<div id="result" style="background: white; width: 50%; margin: auto;">
+			<ul id="disease-list">
+				<!-- List of diseases will be appended here dynamically -->
+			</ul>
+		</div>
+	</div>
+
+	<script>
+		$(document).ready(function() {
+	const sidebar = $('#sidebar');
+	const content = $('.content');
+	const sidebarToggle = $('#sidebarToggle');
+	const sidebarClose = $('#sidebarClose');
+
+	sidebarToggle.on('click', function() {
+		sidebar.addClass('active');
+		content.addClass('active');
+	});
+
+	sidebarClose.on('click', function() {
+		sidebar.removeClass('active');
+		content.removeClass('active');
+	});
+
+	$(document).on('click', function(e) {
+		if (!$(e.target).closest('#sidebar, #sidebarToggle').length) {
+			sidebar.removeClass('active');
+			content.removeClass('active');
+		}
+	});
+
+	window.addEventListener('resize', function() {
+		if (window.innerWidth >= 768) {
+			sidebar.removeClass('active');
+			content.removeClass('active');
+		}
+	});
+});
+
+
+		$(document).ready(function() {
+			let symptomsList = [];
+
+			// Fetch symptoms list from the server
+			$.getJSON('/api/symptoms', function(data) {
+				symptomsList = data;
+			});
+
+			// Handle input changes for autocomplete
+			$('#symptoms').on('input', function() {
+				let input = $(this).val();
+				let lastPart = input.split(',').pop().trim().toLowerCase();
+				
+				if (lastPart) {
+					let suggestions = symptomsList.filter(symptom => symptom.toLowerCase().includes(lastPart));
+					displaySuggestions(suggestions);
+				} else {
+					$('#suggestions').hide();
+				}
+			});
+
+			function displaySuggestions(suggestions) {
+				let suggestionsContainer = $('#suggestions');
+				suggestionsContainer.empty();
+				
+				if (suggestions.length > 0) {
+					suggestions.forEach(suggestion => {
+						suggestionsContainer.append('<div class="autocomplete-suggestion">' + suggestion + '</div>');
+					});
+					
+					suggestionsContainer.show();
+				} else {
+					suggestionsContainer.hide();
+				}
+			}
+
+			$(document).on('click', '.autocomplete-suggestion', function() {
+				let selected = $(this).text();
+				let input = $('#symptoms').val();
+				let parts = input.split(',').map(part => part.trim());
+				parts.pop(); // Remove the last part
+
+				if (!parts.includes(selected)) {
+					parts.push(selected);
+					$('#symptoms').val(parts.join(', ') + ', ');
+				}
+
+				$('#suggestions').hide();
+				$('#symptoms').focus();
+			});
+
+			$('#disease-form').on('submit', function(event) {
+				event.preventDefault();
+				let symptoms = $('#symptoms').val();
+				let symptomsArray = symptoms.split(',').map(part => part.trim()).filter(part => part.length > 0);
+				let invalidSymptoms = symptomsArray.filter(symptom => !symptomsList.includes(symptom.toLowerCase()));
+
+				if (invalidSymptoms.length > 0) {
+					let highlightedInput = symptomsArray.map(symptom => 
+						symptomsList.includes(symptom.toLowerCase()) ? symptom : `<span class="highlight">${symptom}</span>`
+					).join(', ');
+
+					$('#symptoms').html(highlightedInput);
+				}
+
+				$.ajax({
+					url: '/get_diseases',
+					type: 'POST',
+					data: { symptoms: symptoms },
+					success: function(response) {
+						$('#result').html(response);
+					},
+					error: function() {
+						$('#result').html('An error occurred while processing your request.');
+					}
+				});
+			});
+
+			$(document).on('click', function(e) {
+				if (!$(e.target).closest('#symptoms').length) {
+					$('#suggestions').hide();
+				}
+			});
+		});
+	</script>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
