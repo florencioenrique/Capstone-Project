@@ -1,0 +1,117 @@
+*{
+    font-family: sans-serif;
+}
+.navbar {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #343a40;
+}
+.navbar-nav .nav-link {
+    color: white;
+    padding: 0.5rem 1rem; 
+    font-size: 1rem;
+}
+.navbar-nav .nav-link:hover {
+    color: #007bff;
+    border-bottom: 1px solid white;
+}
+.navbar-nav {
+    text-align: center;
+}
+
+.navbar-nav .nav-item {
+    margin: 0;
+}
+.navbar-toggler {
+    border-color: white;
+}
+
+.navbar-toggler-icon {
+    background-image: url('data:image/svg+xml;charset=utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" stroke="%23007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"></path></svg>');
+}
+
+.bg-image {
+    height: 100vh;
+    background-image: url('../images/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.bg-image .text-white {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 8px;
+    color: #fff;
+}
+
+.typing-animation {
+    font-family: monospace; /* Optional: gives a typewriter look */
+    white-space: nowrap;
+    overflow: hidden; /* Hides the text until animated */
+    border-right: 2px solid black; /* Cursor effect */
+    width: 0; /* Initial width for the animation */
+    animation: typing 4s steps(30, end) forwards, blink-caret 0.75s step-end infinite;
+}
+.choose_class{
+    background: rgba(0, 0, 0, 0.5);
+    height: 100vh;
+    width: 100%;
+    position: absolute;
+    z-index: 10;
+}
+.user_form{
+    background: rgba(0, 0, 0, 0.9);
+    padding: 10px;
+    border-radius: 20px;
+    backdrop-filter: blur(1px);
+    /*box-shadow: 10px 10px 20px rgba(255, 255, 255, 0.2), 0 0 10px rgba(255, 255, 255, 0.1);*/
+}
+
+#form-container {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+#form-container.visible {
+    visibility: visible;
+    opacity: 1;
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 83%; } /* Expand width to the full phrase */
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: white; }
+}
+
+@keyframes slide-in {
+    from {
+        transform: translateX(100%); /* Start off-screen to the right */
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0); /* End at its original position */
+        opacity: 1;
+    }
+}
+
+@media(max-width: 768px){
+    #gs{
+        width: 100%;
+    }
+
+    .typing-animation {
+        font-size: 11px; /* Smaller font size for tablets */
+        animation: typing 6s steps(40, end) forwards, blink-caret 0.75s step-end infinite; /* Adjusts speed */
+    }
+}
