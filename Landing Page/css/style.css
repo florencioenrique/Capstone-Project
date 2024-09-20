@@ -1,6 +1,7 @@
 *{
     font-family: sans-serif;
 }
+
 .navbar {
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(10px);
@@ -50,6 +51,20 @@
     color: #fff;
 }
 
+.col-md-6 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    height: 100vh; /* Full viewport height */
+    padding: 20px; /* Add padding for aesthetics */
+    box-sizing: border-box; /* Ensure padding is included in height */
+    text-align: left; /* Align all text to the left */
+}
+
+.typing-animation {
+    margin: 20px 0; /* Add some spacing for the paragraph */
+}
+
 .typing-animation {
     font-family: monospace; /* Optional: gives a typewriter look */
     white-space: nowrap;
@@ -58,30 +73,13 @@
     width: 0; /* Initial width for the animation */
     animation: typing 4s steps(30, end) forwards, blink-caret 0.75s step-end infinite;
 }
-.choose_class{
-    background: rgba(0, 0, 0, 0.5);
-    height: 100vh;
-    width: 100%;
-    position: absolute;
-    z-index: 10;
-}
 .user_form{
-    background: rgba(0, 0, 0, 0.9);
-    padding: 10px;
+    width: 400px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 20px;
     border-radius: 20px;
-    backdrop-filter: blur(1px);
-    /*box-shadow: 10px 10px 20px rgba(255, 255, 255, 0.2), 0 0 10px rgba(255, 255, 255, 0.1);*/
-}
-
-#form-container {
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-}
-
-#form-container.visible {
-    visibility: visible;
-    opacity: 1;
+    backdrop-filter: blur(10px);
+    box-shadow: 10px 10px 20px rgba(255, 255, 255, 0.2), 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
 @keyframes typing {
@@ -106,8 +104,64 @@
 }
 
 @media(max-width: 768px){
+    .bg-image {
+        position: relative; /* Position for the pseudo-element */
+        height: 100vh;
+        background-image: url('../images/background.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    .bg-image::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+            rgba(0, 0, 0, 0.5), /* Adjust color and opacity */
+            rgba(0, 0, 0, 0.5)
+        ); /* Gradient overlay */
+        z-index: 1; /* Layer above the background image */
+    }
+
     #gs{
         width: 100%;
+        display: none;
+    }
+    #greeting{
+        display: none;
+    }
+    .container{
+        margin-top: -350px;
+        text-align: center;
+        z-index: 2;
+    }
+    .col-md-6 h1{
+        font-size: 35px;
+        margin-bottom: -10px;
+        text-align: center;
+    }
+    .col-md-6 .typing-animation{
+        margin-left: 30px;
+        text-align: center;
+        margin-bottom: -100px;
+        font-size: 11px;
+    }
+    @keyframes typing {
+        from { width: 0; }
+        to { width: 85%; } /* Expand width to the full phrase */
+    }
+    .user_form{
+        background: none;
+        margin-top: -60px;
+        overflow-y:none;
+        box-shadow: none;
+        backdrop-filter: none;
+    }
+    .form{
+        height: 100px;
     }
 
     .typing-animation {
