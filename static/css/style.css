@@ -1,0 +1,141 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden;
+}
+
+ul{
+    text-align: center;
+    list-style: none;
+    margin: auto;
+    width: 100%;
+}
+li{
+    list-style: none;
+    padding: 10px;
+    border: 1px solid;
+    margin: 10px;
+    width: 90%;
+}
+.side_bar{
+    background-color: aqua;
+    height: 100vh;
+}
+.image_container{
+    margin: auto;
+    padding: 10px;
+    border-radius: 50%;
+}
+.user_image{
+    border: 1px solid black;
+    margin: auto;
+    border-radius: 50%;
+}
+.username{
+    font-weight: 999;
+    border-bottom: 2px solid;
+    padding-bottom: 20px;
+}
+.list-group{
+    margin: auto;
+}
+.button{
+    margin: auto;
+}
+
+.system{
+    height: 90px;
+    display: flex;
+    margin: auto;
+    border: 1px solid;
+    border-radius: 10px;
+}
+.logo{
+    height: 70px;
+    margin: auto 10px;
+}
+.system_name{
+    font-size: 30px;
+    margin: auto ;
+    margin-right: 10px;
+}
+.main_content{
+    height: 90px;
+    display: flex;
+    margin: auto;
+    border: 1px solid;
+    border-radius: 10px;
+    height: 100vh;
+}
+.doctors{
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 10px;
+}
+.result {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.result h2 {
+    color: #343a40;
+    margin-bottom: 15px; /* Increased space below heading */
+}
+
+.result p {
+    margin: 10px 0; /* More space between entries */
+    padding: 8px; /* Padding inside each result */
+    border-radius: 4px; /* Rounded corners for each entry */
+    background-color: #f1f1f1; /* Light gray background for separation */
+}
+
+.result p strong {
+    color: #007bff; /* Bootstrap primary color */
+}
+
+.result p:last-child {
+    border-top: 1px solid #ced4da; /* Divider for last entry */
+    padding-top: 10px;
+}
+
+.disease-result {
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #07BEB8;
+}
+.disease-result h4 {
+    margin: 0;
+    color: #007bff; /* Bootstrap primary color */
+}
+.disease-result p {
+    margin: 5px 0;
+    background-color: #07BEB8;
+}
+
+
+input[type="text"],
+input[type="submit"],
+button {
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 10px;
+    width: 20%;
+    box-sizing: border-box; /* Makes sure padding is included in total width */
+}
+
+input[type="submit"],
+button {
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white; /* White text for buttons */
+    transition: background-color 0.3s; /* Smooth transition for hover */
+}
+
+input[type="submit"]:hover,
+button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
